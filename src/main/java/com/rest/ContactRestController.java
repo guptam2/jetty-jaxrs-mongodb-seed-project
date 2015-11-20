@@ -13,12 +13,21 @@ import javax.ws.rs.core.Response;
 import com.db.ContactDAO;
 import com.dto.Contacts;
 
+/**
+ * JAX-RS based REST controller 
+ * 
+ * @author guptam2
+ *
+ */
 @Path("/contacts")
 public class ContactRestController {
 
 	private ContactDAO contactDAO =  new ContactDAO();
 	
-	
+	/**
+	 * Get All the contacts in the db
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Contacts> getContact(){
@@ -28,13 +37,19 @@ public class ContactRestController {
 		
 	}
 	
+	/**
+	 * Add a contact in the db
+	 * 
+	 * @param contact
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addContact(Contacts contact ){
 		
 		contactDAO.addContacts(contact);
-		return Response.ok("{success: true}", MediaType.APPLICATION_JSON).build();
+		return Response.ok("{\"success\": true}", MediaType.APPLICATION_JSON).build();
 	}
 	
 	

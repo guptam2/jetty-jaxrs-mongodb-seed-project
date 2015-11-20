@@ -11,18 +11,33 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 
+/**
+ * Mongodb structure
+ * 
+ *  db - customer 
+ *    Collection - contacts
+ * 
+ * @author guptam2
+ *
+ */
 public class ContactDAO {
 	
 	 private MongoDatabase db;
 	
 	 public ContactDAO(){
 		 
+		 //Connect to mongodb running on localhost
 		 MongoClient mongoClient = new MongoClient("localhost",27017);
+		 
+		 //Connect to customer database 
 		 db = mongoClient.getDatabase("customer");
 	 
 	 }
 	
-	
+	/**
+	 * Get all the contacts
+	 * @return
+	 */
 	public List<Contacts> getContacts(){
 		
 		final List<Contacts> contacts = new ArrayList<Contacts>();
@@ -31,8 +46,6 @@ public class ContactDAO {
 		iterable.forEach(new Block<Document>() {
 
 		    public void apply(final Document document) {
-		    	System.out.println("getContacts");
-		    	System.out.println(document);
 		    	Contacts contact =new Contacts();
 		    	contact.setFirstName(document.getString("first_name"));
 		    	contact.setLastName(document.getString("last_name"));
@@ -51,7 +64,11 @@ public class ContactDAO {
 		return contacts;
 	}
 	
-	
+	/**
+	 * Add a contact to DB
+	 * 
+	 * @param contact
+	 */
 	public void addContacts(Contacts contact){
 		
 		db.getCollection("contacts").insertOne(new Document(
